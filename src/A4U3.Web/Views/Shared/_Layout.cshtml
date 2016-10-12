@@ -1,0 +1,150 @@
+﻿@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Hosting
+
+@inject IOptions<ConfigOptions> configOptions
+@inject IHostingEnvironment env
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="flatshare,flat share, house share, house share, flat share, house share, houseshare, roommate, shared accommodation, rooms to let, room to let, rooms to let, rent room, room for rent, rooms to rent, rooms for rent, housemates, flatshares, flatmates, flatshare, student accommodation, Spare Room">
+    <meta name="description" content="Flats and house shares in South Tyneside">
+
+    <title>Accom4You @ViewData["Title"]</title>
+    <link href="~/house_small.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/fancyBox/source/jquery.fancybox.css" />
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/fancyBox/source/jquery.fancybox.css" />
+        <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    </environment>
+
+    @functions {
+        public string GetMapUrlWithApiKey()
+        {
+            string key = "";
+            if (env.IsProduction())
+            {
+                key = configOptions.Value.GoogleMapKey2016;
+            }
+            else
+            {
+                key = configOptions.Value.GoogleMapKey2013;
+            }
+            return $"https://maps.googleapis.com/maps/api/js?key={key}&sensor=false";
+        }
+    }
+
+    <script type="text/javascript"
+            src="@GetMapUrlWithApiKey()">
+    </script>
+
+
+    @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a asp-controller="Home" asp-action="Index" class="navbar-brand">ACCOM 4YOU </a>
+                <p class="navbar-tel">Tel @configOptions.Value.ContactTel</p>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+
+
+                    @if (Context.User.Identity.IsAuthenticated) //  (Request.IsAuthenticated)
+            {
+                        @*<li><a asp-controller="Rental" asp-action="Index">Rentals</a></li>*@
+                        <li><a asp-controller="App" asp-action="Index">Rentals</a></li>
+                        <li><a asp-controller="Rental" asp-action="List">Rental Management</a></li>
+                    }
+                    else
+                    {
+                        @*<li><a asp-controller="Rental" asp-action="Index">Rentals</a></li>*@
+                        <li><a asp-controller="App" asp-action="Index">Rentals</a></li>
+
+                        <li><a asp-controller="Home" asp-action="Landlords">Landlords</a></li>
+                        <li><a asp-controller="Home" asp-action="Tenants">Tenants</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Services <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="Home" asp-action="PropertyMaintenance">Property Maintenance</a></li>
+                                <li><a asp-controller="Home" asp-action="Sales">Sales</a></li>
+                                <li><a asp-controller="Home" asp-action="PropertyBought">Property Bought</a></li>
+                                <li><a asp-controller="Home" asp-action="FinancialServices">Financial Services</a></li>
+                            </ul>
+                        </li>
+                        <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    }
+                </ul>
+
+                @await Html.PartialAsync("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                @RenderBody()
+
+            </div>
+        </div>
+        <footer>
+            <p class="text-center">&copy; @DateTime.Now.Year. &nbsp;<span class="accom4u">Accom 4You Ltd.</span>&nbsp; Registered in England and Wales No. 08360343</p>
+        </footer>
+    </div>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/fancyBox/source/jquery.fancybox.pack.js"></script>
+
+        <script src="~/lib/angular/angular.js"></script>
+        <script src="~/lib/angular-route/angular-route.js"></script>
+
+        @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="~/lib/fancyBox/source/jquery.fancybox.pack.js"></script>
+
+        <script src="~/lib/angular/angular.min.js"></script>
+        <script src="~/lib/angular-route/angular-route.min.js"></script>
+
+        @*<script src="~/js/site.min.js" asp-append-version="true"></script>*@
+
+        <script type="text/javascript">  var appInsights=window.appInsights||function(config){    function r(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s=u.createElement(o),i,f;for(s.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",u.getElementsByTagName(o)[0].parentNode.appendChild(s),t.cookie=u.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)r("track"+i.pop());return r("setAuthenticatedUserContext"),r("clearAuthenticatedUserContext"),config.disableExceptionTracking||(i="onerror",r("_"+i),f=e[i],e[i]=function(config,r,u,e,o){var s=f&&f(config,r,u,e,o);return s!==!0&&t["_"+i](config,r,u,e,o),s}),t    }({        instrumentationKey:"98d745e8-5be5-4ba5-a88a-78d8c00d8505"    });           window.appInsights=appInsights;    appInsights.trackPageView();</script>
+    
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,46 @@
+﻿@using System.Threading.Tasks
+@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Hosting
+
+@*MVC6 This is how to access the json config items*@
+@inject IOptions<ConfigOptions> options
+
+@{
+    ViewBag.Title = "Contact";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Contact Us</h1>
+    </div>
+</div>
+
+<div >
+    <p >
+        <span>Accom 4You Ltd</span><br>
+        <span>88/90 Fowler Street</span><br>
+        <span>South Shields</span><br>
+        <span>Tyne and Wear</span>
+        <span>NE33 1PD</span>
+    </p>
+</div>
+
+<section>
+    <address>
+        <span class="label label-default">Mobile:</span>
+        <span>@options.Value.ContactTel</span>
+    </address>
+    <address>
+        <span class="label label-default">Main:</span>
+        <span>@options.Value.ContactTel</span>
+    </address>
+    <address>
+        <span class="label label-default">Admin:</span>
+        <span>
+            <a href="mailto: @options.Value.ContactEmail ">
+                @options.Value.ContactEmail
+            </a>
+        </span>
+    </address>
+</section>
+

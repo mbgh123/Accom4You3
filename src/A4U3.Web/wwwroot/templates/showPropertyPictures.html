@@ -1,0 +1,20 @@
+﻿
+<!--No pics to display-->
+<ul ng-if="property.pictureCount == 0">
+    <li>
+        <img class="img-rounded" src="/images/no-image-yet.png" alt="no image yet" />
+    </li>
+</ul>
+
+<!-- Some pics to display-->
+<ul class="pictures" ng-if="property.pictureCount > 0">
+    <li ng-repeat="pic in property.pictures">
+        <a rel="{{ 'group' + property.propertyId }}" href="/uploads/{{pic.uniqueName}}">
+            <img class="img-rounded {{ !$first ? 'hidden':'' }}" ng-src="/uploads/{{pic.thumbName}}" title="{{ pic.description}}" alt="picture of interior" />
+        </a>
+    </li>
+</ul>
+
+<div>
+    <i class="fa fa-camera"> {{ property.pictureCount}}</i>
+</div>

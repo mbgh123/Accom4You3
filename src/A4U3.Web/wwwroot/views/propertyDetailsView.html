@@ -1,0 +1,56 @@
+﻿
+<div class="row">
+    <div class="col-md-12">
+        <h1>Property Details</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-info property-listing">
+            <div class="panel-heading address">
+                <span>{{ vm.property.address}}</span>
+                <span class="rate pull-right">£{{vm.property.ratePCM }} <abbr title="per calendar month">pcm</abbr></span>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div show-property-features property="vm.property"></div>
+                        <br />
+                        <div show-property-key-info property="vm.property"></div>
+
+                    </div>
+                    <div class="col-sm-3 app-pictures">
+                        <div show-property-pics property="vm.property"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>{{ vm.property.description }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1">
+                        <!-- NB ng-show interferes with the display of google maps. Don't use!-->
+                        <div id="map" style="height:400px; display:none;">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <a ng-show="!vm.frommap" href="#/" class="btn btn-sm btn-default btn-primary"><i class="fa fa-angle-left"></i> Back to List</a>
+            <a ng-show="vm.frommap" href="/Rental/Map" class="btn btn-sm btn-default btn-primary"><i class="fa fa-angle-left"></i> Back to Map</a>
+        </div>
+    </div>
+</div>
+

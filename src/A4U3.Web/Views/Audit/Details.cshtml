@@ -1,0 +1,50 @@
+﻿@model A4U3.Web.Models.ViewModel.AuditVM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Audit</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            DateTime
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTimeDisplayFull)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Url)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserAgent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserAgent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserHostAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserHostAddress)
+        </dd>
+        <dt>Locate Ip</dt>
+        <dd><a href="http://www.whereisip.net/index.php" target="_blank">Find IP location</a></dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

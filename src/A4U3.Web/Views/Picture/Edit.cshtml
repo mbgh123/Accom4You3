@@ -1,0 +1,46 @@
+﻿@using A4U3.Web.ViewComponents
+
+@model Picture
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Picture Description</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Feature</legend>
+
+        @Html.HiddenFor(model => model.PictureId)
+        @Html.HiddenFor(model => model.PropertyId)
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+        <br/>
+        <input type="submit" value="Save" class="btn btn-success" />
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Property", "Edit", "Rental", new { id = Model.PropertyId }, null)
+</div>
+<br />
+
+@*@Html.Action("Details", "Rental", new { id = Model.PropertyId, highlightPictureId = Model.PictureId })*@
+
+@*@Component.InvokeAsync("PropertyPublic", new PropertyPublicParams { PropertyId = Model.PropertyId, PicureToHighlight = Model.PictureId })*@
+
+@await Component.InvokeAsync("PropertyPublic", new { propertyId = Model.PropertyId, featureToHighlight = 0, pictureToHighlight = Model.PictureId })
+
+
+@section Scripts {
+    
+}

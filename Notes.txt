@@ -1,0 +1,157 @@
+A4U2 Notes
+==========
+
+Differences between A4U (MVC5) and A4U2 (MVC6 / Dot Net Core)
+-------------------------------------------------------------
+
+- Unity not used. DI already built it
+- EF7, no DbGeoography as at 1/12/15
+- Angualar front end in parts
+- C# 6 in places
+- MVC6 project structure, bower, etc, tag helpers
+	- completley different way of accessing config options (see IOptions)
+	- use of IHttpContextAccessor to uncouple HttpContext.Current. Set Static Data class
+
+- Webmatrix gone.
+- IHtmlString gone. Used in Image tag HtmlHelper. Use IHtmlContent.
+- Filters. Namespaces differ. And some functional differencs too
+- using System.Web.Mvc; replaced with using Microsoft.AspNet.Mvc; ??
+- Controller.OnAuthorization()	gone.
+- Request.File gone. How upload files? IFormfile, file.CopyTo(fileStream)
+- ServerMapPath gone. Instead inject IApplicationEnvironment
+- Request.IsAjaxRequest(); gone. 
+- @Html.Action gone(Calling child actions from view). Replaced with	ViewComponents 
+- @Html.DisplayFor(model => model.Address) (use of Display templates(and edit template)) - no change?
+
+- uses Pagedlist nuget package. This NuGet package is discountinued.
+	PagedList.Mvc may have a dependency on System.Web.Mvc, which should no longer be used ?
+	Switching to cloudscribe.Web.Pagination
+
+- rework existing JS to revealing module pattern? or maybe typescript.
+- In a view: HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString()
+        now: ViewContext.RouteData.Values["action"].ToString()
+		 although it turns out ViewContext was available in MVC5 too.
+
+
+Gotchas
+-------
+As of 22/1/16, when adding a new project (a package) to the solution, its not added under 
+the src folder.  Consequently when then trying to reference it in a project.json file, it is not shown.
+After moving the project folder to under src, and adjusting the solution file (and source control!)
+it shows in the project file.
+	Alternatively, add the project under src in solution explorer, then drag it to the preferred
+solution folder (dont create it in that solution folder)
+
+
+RC1 -> RTM
+----------
+
+Controller and action results renamed
+The following Controller methods have been renamed and moved to ControllerBase:
+
+ASP.NET 5 RC1						ASP.NET Core 1.0
+HttpUnauthorized					Unauthorized
+HttpNotFound (and its overloads)	NotFound
+HttpBadRequest (and its overloads)	BadRequest
+
+var email = info.ExternalPrincipal.FindFirstValue(ClaimTypes.Email);
+var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+IApplicationEnvironment.AppBathPath not longer there
+ use IHostingEnvironment.ContentRootPath
+
+ file.SaveAs(path);
+ file.CopyTo
+
+ @Component.Invoke			@Component.InvokeAsync
+
+
+
+Model or ViewModel
+------------------
+Looking at existing A4U, the Domain project contains models, but those models have been decorated 
+with attributes more suited for ViewModles.
+
+For Example, Property has:
+
+public class Property
+    {
+        public int PropertyId { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yy ddd}")]
+        [Display(Name = "Next Availability")]
+        public DateTime? NextAvailability { get; set; }
+
+
+It seems I'm often directly using decorated models from Domain in the controllers/views. 
+For example Picture class, has a Required Description.
+
+!!!!! [Required] is an instruction to Entity Framework as well as client side validation. 
+      EF will make the column Not NULL.
+!!!!! [MaxLength(15)] and [MinLength] also operate on EF table creation (nvarchar(15))
+
+
+C# 6 Changes
+------------
+Expression Body members for read only properties
+        public string Date => DateTimeRaw.ToShortDateString(); 
+
+		Notes on getting EF7 setup (beta 8)
+===================================
+
+To use EF7, needed to create projects as package projects.
+EF7 wsa the available in the project.json file.
+
+Config
+------
+Added depenednecies and ef command to project.json
+
+
+Migrations
+----------
+command line
+dnx ef migrations add Initial
+
+dnx ef database update
+	created the db, and identity tables
+
+
+EF5-EF7 difference
+------------------
+Property.hasMaxPictures is a calculated field. In A4U is was not generated as a column.
+But in EF7 it has been. Marking the field [NotMapped] and updating the database.
+
+dnx ef migrations add hasMaxNotMapped
+ created the new migrations file
+ 20151204171538_hasMaxNotMapped
+
+dnx ef database update
+ applies the migration
+
+Change lat/long from decimal to a string
+----------------------------------------
+dnx ef migrations add latLongFormat
+dnx ef database update
+
+Applying migrations to production
+=================================
+This is not the recommened way, see http://cpratt.co/migrating-production-database-with-entity-framework-code-first/
+But for this smal scale app, it will suffice.
+After adding a new migration and applying with update to the local db...
+...change the CS in the appsettings to point to the poduction db.
+
+
+TODO
+====
+- apply typescript to js
+- why doesn't audit filter work on azure? - It does in RTM
+
+New Features?
+- a Dashboard page (see spark art example) showing? browser stats? search terms
+- broarden search
+- twitter
+- Not a feature, but rethink user input validation, encode/decode/dangeous input etc
+
+
+
+

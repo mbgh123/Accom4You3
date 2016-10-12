@@ -1,0 +1,11 @@
+﻿
+<div ng-if="property.features.length > 0">
+    <b>Features</b>
+    <ul class="features">
+        <li ng-repeat="feature in property.features">
+            <i class="fa fa-plus-square text-info"></i> {{feature.description}}
+        </li>
+    </ul>
+    <div style="clear:both;"></div>
+</div>
+

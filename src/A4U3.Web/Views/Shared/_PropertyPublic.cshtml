@@ -1,0 +1,39 @@
+﻿@model A4U3.Web.Models.ViewModel.PropertyVM
+
+<div class="property-details">
+    <div class="row">
+
+        <div class="col-xs-12 keyinfo">
+            @Html.DisplayFor(model => model, "MapDisplayTemplate")
+
+            <div>
+                <h3>@Html.DisplayFor(model => model.Address)</h3>
+                
+                @{string bedroom = Model.Bedrooms == 1 ? "Bedroom" : "Bedrooms";}
+
+                @Model.Bedrooms @bedroom, @Html.DisplayFor(model => model.Furnishing, "FurnishingDisplayTemplate"),
+
+                <span class="rate">&pound;@Html.DisplayFor(model => model.RatePCM) <abbr title="per calendar month">pcm</abbr></span>
+                
+            </div>
+
+            <div class="clear">
+                
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        @Html.DisplayFor(model => model, "FeaturesDisplayTemplate")
+
+        @Html.DisplayFor(model => model, "PicturesDisplayTemplate")
+    </div>
+
+    <br>
+    <div>
+        @Html.Raw(Model.DescriptionWithBreaks)
+    </div>
+
+</div>

@@ -1,0 +1,33 @@
+﻿@using System.Threading.Tasks
+@using A4U3.Web.Helpers
+@using A4U3.Web.Models
+@model A4U3.Web.Models.FilterItems
+
+<div class="form-inline" role="form">
+    <div class="form-group">
+        @Html.DropDownList("Bedrooms", Utility.BedroomsSelectList(Model.Bedrooms), null, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <input asp-for="RentMax" class="form-control" placeholder="Max Rent" />
+        <div>
+            @Html.ValidationMessageFor(model => model.RentMax, "Please enter a number. (No £ sign or letters)")
+        </div>
+    </div>
+
+    @{
+        if (ViewContext.RouteData.Values["action"].ToString().ToLower() != "map")
+        {
+            <div class="form-group">
+                @Html.DropDownList("SortOrder", Utility.SortOrderSelectList(Model.SortOrder), null, new { @class = "form-control" })
+            </div>
+        }
+    }
+
+    <!-- Form is not auto posted by JS on filter item change event-->
+    @*<button type="submit" class="btn btn-success">Refresh Results</button>*@
+
+</div>
+
+<!--NB Partial views don't have script sections. So we can't put the JS auto postback code here
+    It must go on every page that uses this partial view.-->

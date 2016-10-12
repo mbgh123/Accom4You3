@@ -1,0 +1,40 @@
+﻿@using A4U3.Web.ViewComponents
+@model Feature
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Feature</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+
+        @Html.HiddenFor(model => model.PropertyId)
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+
+        <input type="submit" value="Create" class="btn btn-success" />
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Property", "Edit", "Rental", new { id = Model.PropertyId }, null)
+</div>
+<br />
+
+@await Component.InvokeAsync("PropertyPublic", new { propertyId = Model.PropertyId, featureToHighlight = 0, pictureToHighlight = 0 })
+
+
+
+@section Scripts {
+    
+}

@@ -1,0 +1,19 @@
+﻿@model A4U3.Web.Models.ViewModel.PropertyVM
+
+@if (Model.Features != null && Model.Features.Count != 0)
+{
+    <div id="features" class="col-lg-6 col-md-5 col-sm-6">
+        <ul>
+            @foreach (var item in Model.Features)
+            {
+                string temp = (Model.FeatureToHighlight == item.FeatureId) ? "important" : "";
+
+                <li class="@temp">
+                    @*<i class="glyphicon glyphicon-chevron-right"></i>*@
+                    @item.Description
+                </li>
+            }
+        </ul>
+
+    </div>
+}

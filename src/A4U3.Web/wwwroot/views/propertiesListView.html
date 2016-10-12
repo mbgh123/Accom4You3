@@ -1,0 +1,110 @@
+﻿<!--Properties ListView-->
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Properties and Rooms to Let</h1>
+        <br />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        <p>
+            <a class="btn btn-primary" href="/Rental/Map">Switch to Map View &nbsp;<i class="fa fa-map-o"></i></a>
+        </p>
+    </div>
+    <div class="col-sm-9">
+        <div id="showing-x-of-y" ng-show="filteredProperties.length > 0">
+            <span class="grey">&nbsp;&nbsp;Showing </span>
+            <strong>1 to {{ filteredProperties.length }}</strong>
+            <span class="grey"> of </span>
+            <strong>{{ filteredProperties.length }}</strong>
+            <span class="grey">results</span>
+        </div>
+    </div>
+</div>
+
+<div class="form-inline" role="form">
+    <div class="form-group">
+        <select class="form-control" ng-model="bedrooms">
+            <option value="">Bedrooms: Any</option>
+            <option value="1">1 bedroom</option>
+            <option value="2">2+ bedrooms</option>
+            <option value="3">3+ bedrooms</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="number" class="form-control" value="" ng-model="rate" placeholder="Max Rent" />
+    </div>
+    <div class="form-group">
+        <select class="form-control" ng-model="sortorder">
+            <option value="">Default Sort Order</option>
+            <option value="-ratePCM" selected>Order by Highest Rate</option>
+            <option value="ratePCM">Order by Lowest Rate</option>
+        </select>
+    </div>
+</div>
+<br />
+
+<div class="row" ng-repeat="property in filteredProperties = ( vm.properties
+                                   | orderBy:sortorder
+                                   | filter: greaterThanFilter(rate)
+                                   | filter: bedroomFilter(bedrooms) )">
+    <div class="col-md-12">
+        <div class="panel panel-info property-listing ">
+            <div class="panel-heading address">
+                <span>{{ property.address }}</span>
+                <span class="rate pull-right">£{{ property.ratePCM }} <abbr title="per calendar month">pcm</abbr></span>
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-4 app-pictures">
+                    <div show-property-pics property="property"></div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-xs-9">
+                            <div show-property-key-info property="property"></div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="pull-right">
+                                <a ng-if="property.location" href="#mapDiv" class="maplink"
+                                   ng-click="showMap($event)"
+                                   data-a4u-long="{{ property.location.long }}"
+                                   data-a4u-lat="{{ property.location.lat }}"
+                                   data-a4u-address="{{ property.address }}">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <br />
+                            <p>{{ property.descriptionShort }}</p>
+                            <div show-property-features property="property"></div>
+
+                            <a ng-href="#/details/{{property.propertyId}}" class="btn btn-sm btn-success pull-right">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-show="!vm.isBusy && filteredProperties.length == 0">
+    <div class="col-md-8">
+        <div class="panel panel-danger">
+            <div class="panel-heading ">
+            </div>
+            <div class="panel-body">
+                <p class="text-info">Sorry, no properties matching criteria.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-show="vm.isBusy">
+    <div class="col-md-12">
+        <button class="btn btn-lg btn-info"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</button>
+    </div>
+</div>

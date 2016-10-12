@@ -1,0 +1,53 @@
+﻿@model A4U3.Web.Models.ViewModel.WrapperVM
+
+@{
+    ViewBag.Title = "Rentals";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Properties and Rooms to Let</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <a class="btn btn-primary" href="~/Rental/Map">Switch to Map View &nbsp;<span class="glyphicon glyphicon-globe"></span></a>
+
+        @{
+            if (Model.Properties.Any())
+            {
+                <span class="grey">&nbsp;&nbsp;Showing </span>
+                <strong>1 to @Model.Properties.Count()</strong>
+                <span class="grey"> of </span>
+                <strong>@Model.Properties.Count()</strong>
+                <span class="grey">results</span>
+            }
+        }
+        <br />
+        <br />
+    </div>
+</div>
+
+<div>
+    @using (Html.BeginForm("Index", "Rental"))
+    {
+        @Html.Partial("_Filter", Model.Filter);
+    }
+</div>
+
+<!-- This Div is required for the property map link-->
+<div id="mapDiv" style="display: none; height: 400px; width: 500px;">
+</div>
+
+<div id="target">
+    @Html.Partial("_Details", Model.Properties)
+</div>
+
+@section scripts
+{
+    <script src="~/js/a4u/a4u.setup-autopost.js"></script>
+
+    <script src="~/js/a4u/a4u.property-to-map.js"></script>
+}

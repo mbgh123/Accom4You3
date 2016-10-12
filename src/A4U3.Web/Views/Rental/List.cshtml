@@ -1,0 +1,58 @@
+﻿@model IEnumerable<A4U3.Web.Models.ViewModel.PropertyVM>
+
+@{
+    ViewBag.Title = "Rentals";
+}
+
+<h2>Rental Management</h2>
+
+<p class="navigation">
+    @Html.ActionLink("Add New Property", "Create")
+</p>
+<table id="property-list" class="table table-bordered table-striped">
+    <tr>
+        <th>
+            Live
+        </th>
+        <th style="width:300px;">
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th style="width:130px;">
+            @Html.DisplayNameFor(model => model.RatePCM)
+        </th>
+        <th style="width:100px;">
+            @Html.DisplayNameFor(model => model.Bedrooms)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.isEnabled)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td >
+                @Html.DisplayFor(modelItem => item.RatePCM)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Bedrooms)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescriptionShort)
+            </td>
+            <td class="navigation">
+                @Html.ActionLink("Details", "DetailsCMS", new { id = item.PropertyId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.PropertyId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.PropertyId })
+            </td>
+        </tr>
+    }
+</table>
+

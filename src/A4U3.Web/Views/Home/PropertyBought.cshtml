@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "PropertyBought";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Property Bought</h1>
+    </div>
+</div>
+
+<div class="row">
+    <article class="col-md-8 col-sm-8">
+        <p class="lead">
+            If you are looking for a quick sale on a property we buy properties for investment purposes and can also arrange sales to other investment buyers.
+        </p>
+        <p>For an appraisal please @Html.ActionLink("Contact us", "Contact", "Home") </p>
+    </article>
+
+    <aside class="col-md-3 col-sm-3 hidden-xs">
+        <img src="~/assets/images/for%20sale%20sign.png" class="img-responsive" alt="property for sale sign"/>
+    </aside>
+</div>

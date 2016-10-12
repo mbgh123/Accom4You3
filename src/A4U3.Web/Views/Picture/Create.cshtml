@@ -1,0 +1,63 @@
+﻿@using A4U3.Web.ViewComponents
+
+@model Picture
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Picture</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <h3 class="important">@ViewBag.Comment</h3>
+    
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        @Html.HiddenFor(model => model.PropertyId)
+
+        <div class="row">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Description)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+
+        <div>
+            <label>File</label>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <input id="file" class="form-control" name="file" type="file" />
+            </div>
+        </div>
+
+        <br />
+        <input type="submit" value="Create" class="btn btn-success" />
+        <br />
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to Property", "Edit", "Rental", new { id = Model.PropertyId }, null)
+</div>
+<br />
+
+
+@await Component.InvokeAsync("PropertyPublic", new { propertyId = Model.PropertyId, featureToHighlight = 0, pictureToHighlight = 0 })
+
+
+@section Scripts {
+    
+}

@@ -1,0 +1,119 @@
+﻿@model Property
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Property</h2>
+<br />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Property</legend>
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label asp-for="isEnabled">Live (is shown to public)</label>
+            </div>
+            <div class="col-md-1">
+                <input asp-for="isEnabled" type="checkbox" class="form-control" />
+                <span asp-validation-for="isEnabled"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label asp-for="Furnishing"></label>
+            </div>
+            <div class="col-md-2">
+                @*@Html.DropDownList("Furnishing", Utility.FurnishingSelectList(), null, new { @class = "form-control" })*@
+                
+                <select asp-for="Furnishing" class="form-control" asp-items="Utility.FurnishingSelectList()"></select>
+                <span asp-validation-for="Furnishing"></span>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label asp-for="Address"></label>
+            </div>
+            <div class="col-md-3">
+                <input asp-for="Address" class="form-control" placeholder="Enter address" />
+                <span asp-validation-for="Address"></span>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label asp-for="PostCode"></label>
+            </div>
+            <div class="col-md-2">
+                <input asp-for="PostCode" class="form-control" />
+                <span asp-validation-for="PostCode"></span>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label asp-for="RatePCM"></label>
+            </div>
+            <div class="col-md-3">
+                <input asp-for="RatePCM" class="form-control" />
+                <span asp-validation-for="RatePCM"></span>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label asp-for="Bedrooms"></label>
+            </div>
+            <div class="col-md-3">
+                <input asp-for="Bedrooms" class="form-control" />
+                <span asp-validation-for="Bedrooms"></span>
+            </div>
+        </div>
+
+        <div class="" style="margin-top:10px;">
+            <label asp-for="Description"></label>
+        </div>
+        <div class="row form-group">
+            <div class="editor-field-description col-md-10">
+                <textarea asp-for="Description" placeholder="Please enter a description" class="form-control"></textarea>
+                <span asp-validation-for="Description"></span>
+            </div>
+        </div>
+
+        <div class="row form-group">
+
+            <div class="col-md-3">
+                <label asp-for="Features"></label>
+            </div>
+            <div class="col-md-9">
+                <p>Once the property has been created, features can be added through the property edit function.</p>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                <label asp-for="Pictures"></label>
+            </div>
+            <div class="col-md-9">
+                <p>Once the property has been created, pictures can be added through the property edit function.</p>
+            </div>
+        </div>
+
+
+        <input type="submit" value="Create" class="btn btn-success" />
+    </fieldset>
+}
+
+<div class="navigation">
+    @Html.ActionLink("Back to List", "List")
+</div>
+
+@section Scripts {
+
+}

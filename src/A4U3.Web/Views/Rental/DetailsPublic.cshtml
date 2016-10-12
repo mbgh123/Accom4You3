@@ -1,0 +1,24 @@
+﻿@using A4U3.Web.ViewComponents
+
+@model Property
+
+@{
+    ViewBag.Title = "Property Details";
+}
+
+<h2>Property Details</h2>
+
+<a class="btn btn-primary" href="~/Rental/Map">Back to Map View <span class="glyphicon glyphicon-globe"></span></a>
+
+<div id="mapDiv" style="display: none; height: 400px; width: 500px;">
+</div>
+
+
+@await Component.InvokeAsync("PropertyPublic", new { propertyId = Model.PropertyId, featureToHighlight = 0, pictureToHighlight = 0 })
+
+
+
+@section scripts
+{
+    <script src="~/js/a4u/a4u.property-to-map.js"></script>
+}

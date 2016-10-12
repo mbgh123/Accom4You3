@@ -1,0 +1,32 @@
+﻿@using A4U3.Web.ViewComponents
+
+@model Picture
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3 class="important">Are you sure you want to delete this picture?</h3>
+<br />
+<fieldset>
+
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+</fieldset>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <br />
+    <input type="submit" value="Delete" class="btn btn-danger" />
+}
+<br />
+@Html.ActionLink("Back to Property", "Edit", "Rental", new { id = Model.PropertyId }, null)
+
+@*@Html.Action("Details", "Rental", new { id = Model.PropertyId, highlightPictureId = Model.PictureId })*@
+
+@*@Component.InvokeAsync("PropertyPublic", new PropertyPublicParams { PropertyId = Model.PropertyId, PicureToHighlight = Model.PictureId })*@
+
+@await Component.InvokeAsync("PropertyPublic", new { propertyId = Model.PropertyId, featureToHighlight = 0, pictureToHighlight = Model.PictureId })

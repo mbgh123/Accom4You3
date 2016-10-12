@@ -1,0 +1,26 @@
+﻿@model ICollection<Feature>
+
+@if (Model != null && Model.Count != 0)
+{
+    <div class="row">
+        <div class="col-md-5">
+            <table class="table table-bordered table-striped">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Description </td>
+
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Feature",
+                                new { id = @item.FeatureId }, null)
+                            |
+                            @Html.ActionLink("Delete", "Delete", "Feature",
+                                new { id = @item.FeatureId }, null)
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+}

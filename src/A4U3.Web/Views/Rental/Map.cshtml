@@ -1,0 +1,152 @@
+﻿@using System.Threading.Tasks
+@using A4U3.Web.Models
+@model A4U3.Web.Models.MapJson
+
+@{
+    ViewBag.Title = "Map";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Properties and Rooms to Let</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            <a class="btn btn-primary" href="/App#/">Switch to List View &nbsp;<i class="fa fa-bars"></i></a>
+        </p>
+    </div>
+    <div class="col-sm-9">
+        @{
+            if (Model.PropertyCount > 0)
+            {
+                <div id="showing-x-of-y">
+                    <span class="grey">&nbsp;&nbsp;Showing </span>
+                    <strong>1 to @Model.PropertyCount</strong>
+                    <span class="grey"> of </span>
+                    <strong>@Model.PropertyCount</strong>
+                    <span class="grey">results</span>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("Map", "Rental"))
+        {
+            @Html.Partial("_Filter", Model.Filter);
+        }
+    </div>
+</div>
+
+<div id="noResultsOuter" style="display: none;" class="row">
+    <div class="col-md-12"> @Html.Partial("_NoProperties")</div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div id="mapDiv" style="display: none; height: 500px;"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var mapData=@Html.Raw(Model.DataToMap)
+</script>
+
+@section scripts{
+
+    <script src="~/js/a4u/a4u.setup-autopost.js"></script>
+
+    <script type="text/javascript">
+
+        // Map Stuff
+        var map;
+        var infowindow = new google.maps.InfoWindow();
+
+        $(document).ready(function() {
+
+            var latStart = 54.99;
+            var lngStart = -1.43;
+
+            GetMap(lngStart, latStart);
+
+            if (mapData.length != 0) {
+                $('#noResultsOuter').hide();
+                $('#mapDiv').show();
+                $(mapData).each(function() { AddProperty(this); });
+
+            } else {
+                $('#noResultsOuter').show();
+                $('#mapDiv').hide();
+            }
+
+            // Originally I was doing an ajax call to thge controlled to get the data
+            // But since I want to pass in Filter options, its easier just to do a
+            // conventional View/Controller passing the filter in the model.
+            //
+            //$.ajax(
+            //    {
+            //        url: 'PropertiesToMap',
+            //        datatype: "json",
+
+            //        success: function(data) {
+            //            $(data).each(function() { AddProperty(this); });
+            //        },
+
+            //        error: function() {
+            //            alert('ajax error' + status);
+            //        }
+            //    });
+        });
+
+        function AddProperty(data) {
+
+            var myLatlng = new google.maps.LatLng(data.Lat, data.Lng);
+
+            var marker = new google.maps.Marker({
+                map: map,
+                position: myLatlng,
+                title: data.Address
+            });
+
+            var contentString = '<div id="content" class="mapPopupInfo">' +
+                '<h3 id="firstHeading" class="firstHeading">' + data.Address + '</h3>' +
+                '<strong class="text-info">' +
+                '<p>Rate: &pound;' + data.Rate + ' pcm,&nbsp;&nbsp;' +
+                'Bedrooms: ' + data.Bedrooms + ',&nbsp;&nbsp;' +
+                'Furnishing: ' + data.Furnishing + '<br />' +
+                '</p></strong>' +
+                '<p>' + data.Description + '</p>' +
+                '<a href = "/App#/details/' + data.Id + '?frommap=true"  ><strong>...Further Details</strong></a>' +
+                '</div>';
+
+            google.maps.event.addListener(marker, 'click',
+                function () {
+                    if (infowindow) {
+                        infowindow.close();
+                    }
+                    infowindow.setContent(contentString);
+                    infowindow.open(map, marker);
+                });
+        }
+
+        function GetMap(lng, lat) {
+
+            var myLatlng = new google.maps.LatLng(lat, lng);
+
+            var mapOptions = {
+                center: myLatlng,
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
+        }
+
+    </script>
+}

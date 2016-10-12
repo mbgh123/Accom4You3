@@ -1,0 +1,43 @@
+﻿<!--I think this partial is redundant. Replaced by Picture DisplayTemplate-->
+@model A4U3.Web.Models.ViewModel.PropertyVM
+
+@using System.Threading.Tasks
+@using A4U3.Web.Helpers
+
+@if (Model.Pictures != null && Model.Pictures.Count != 0)
+{
+    <div class="col-lg-offset-0 col-md-offset-0 col-sm-offset-0 col-lg-6 col-md-7 col-sm-6 col-xs-offset-1 col-xs-11">
+        <div class="pictureContainer pull-right">
+            <!-- NB class pictures needed for fancybox-->
+            <ul class="list-inline pictures">
+                <!-- Currently only room for 4 pictures-->
+                @foreach (var item in Model.Pictures.Take(4))
+                {
+                    string temp = (Model.PictureToHighlight != null && Model.PictureToHighlight == item.PictureId) ? "important" : "";
+                    string group = "group" + Model.PropertyId;
+
+                    <li class="@temp">
+                        <a rel=@group href="~/uploads/@item.UniqueName"><img class="img-rounded" src="~/uploads/@item.ThumbName" title="@item.Description"></a>
+
+                        @*@Html.AnchorImage(item, @group)*@
+                        
+                    </li>
+                }
+
+                <!--If there are more than 4 pictures, put them on the page but hidden. They will be shown by fancybox. -->
+                @foreach (var item in Model.Pictures.Skip(4))
+                {
+                    string temp = (Model.PictureToHighlight != null && Model.PictureToHighlight == item.PictureId) ? "important" : "";
+                    string group = "group" + Model.PropertyId;
+
+                    <li class="hidden @temp">
+                        <a rel=@group href="~/uploads/@item.UniqueName"><img class="img-rounded" src="~/uploads/@item.ThumbName" title="@item.Description"></a>
+
+                        @*@Html.AnchorImage(item, @group)*@
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+

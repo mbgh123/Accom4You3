@@ -1,0 +1,29 @@
+﻿@model ICollection<Picture>
+
+@if (Model != null && Model.Count != 0)
+{
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered table-striped">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><img src="~/uploads/@item.ThumbName" style="width:50%" /></td>
+
+                        <td>@item.Description </td>
+
+                        <td>@item.OriginalName</td>
+
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Picture",
+                                new { id = @item.PictureId }, null)
+                            |
+                            @Html.ActionLink("Delete", "Delete", "Picture",
+                                new { id = @item.PictureId }, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

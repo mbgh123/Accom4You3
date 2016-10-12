@@ -1,0 +1,138 @@
+﻿@model Property
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Property</h2>
+<br />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Property</legend>
+
+        @Html.HiddenFor(model => model.PropertyId)
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.isEnabled, "Live (is shown to public) :")
+            </div>
+            <div class="col-md-1">
+                <input asp-for="isEnabled" class="form-control" />
+                @Html.ValidationMessageFor(model => model.isEnabled)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Furnishing)
+            </div>
+            <div class="col-md-2">
+                @*@Html.EditorFor(model => model.Furnishing)*@
+                @Html.DropDownList("Furnishing", Utility.FurnishingSelectList(), null, new { @class="form-control"})
+
+
+                @Html.ValidationMessageFor(model => model.Furnishing)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Address)
+            </div>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Address, new{@class= "form-control"})
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.PostCode)
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.PostCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PostCode)
+            </div>
+            <div class="col-md-3">
+                @if (Model.Latitude != null)
+                {
+                    <span>(Long: @Model.Longitude ,Lat: @Model.Latitude )</span>
+                }
+            </div>
+        </div>
+        
+        <div class="row form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.RatePCM)
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.RatePCM, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RatePCM)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3">
+                @Html.LabelFor(model => model.Bedrooms)
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.Bedrooms, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Bedrooms)
+            </div>
+        </div>
+
+        <div class="" style="margin-top:10px;">
+            @Html.LabelFor(model => model.Description)
+        </div>
+        <div class="row form-group">
+            <div class="editor-field-description col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+
+        <br />
+        <div class="">
+            <h2>@Html.LabelFor(model => model.Features)</h2>
+        </div>
+        <div class="editor-field-description">
+            @Html.ActionLink("Add Feature", "Create", "Feature", new { id = Model.PropertyId }, null)
+
+            @Html.EditorFor(model => model.Features, "FeaturesEditorTemplate")
+            @Html.ValidationMessageFor(model => model.Features)
+        </div>
+
+        <br />
+        <div class="">
+            <h2>>@Html.LabelFor(model => model.Pictures)</h2
+        </div>
+        <div class="editor-field-description">
+            @if (Model.hasMaxPictures == false)
+            {
+                @Html.ActionLink("Add Picture", "Create", "Picture", new { id = Model.PropertyId }, null)
+            }
+            else
+            {
+                <p>The maximum of 8 pictures have been added.</p>
+            }
+
+            @Html.EditorFor(model => model.Pictures, "PicturesEditorTemplate")
+            @Html.ValidationMessageFor(model => model.Pictures)
+        </div>
+
+        <br />
+        <input type="submit" value="Save Property" class="btn btn-success" />
+    </fieldset>
+}
+<br />
+<div class="navigation">
+    @Html.ActionLink("Back to List", "List")
+</div>
+
+@section Scripts {
+
+}

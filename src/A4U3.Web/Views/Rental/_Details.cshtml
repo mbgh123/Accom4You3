@@ -1,0 +1,18 @@
+﻿@using System.Diagnostics
+@using A4U3.Web.ViewComponents
+@model IEnumerable<Property>
+    
+<input id="property-count" type="hidden" value="@Model.Count()">
+
+@if (Model.Any())
+{
+    foreach (var item in Model)
+    {
+        @await Component.InvokeAsync("PropertyPublic", new { propertyId = item.PropertyId, featureToHighlight = 0, pictureToHighlight = 0 })
+
+    }
+}
+else
+{
+    @Html.Partial("_NoProperties");
+}

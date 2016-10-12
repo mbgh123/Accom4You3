@@ -1,0 +1,17 @@
+﻿@model A4U3.Web.Models.ViewModel.PropertyVM
+
+@if (Model.Location != null)
+
+
+{
+    <div class="pull-right">
+        <a href="#mapDiv" class="maplink" 
+
+           data-a4u-long="@Model.Location.Long" 
+           data-a4u-lat="@Model.Location.Lat" 
+           
+           data-a4u-address="@Model.Address">
+            <img src="~/assets/images/view_on_map.png" alt="View on Map" title="View on Map"/>
+        </a>
+    </div>
+}

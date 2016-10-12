@@ -1,0 +1,25 @@
+﻿@section Scripts {
+
+
+    <script src="~/lib/underscore/underscore.js"></script>
+    
+
+    <script src="~/js/ng/app.js"></script>
+    <script src="~/js/ng/showpropertyPics.directive.js"></script>
+    <script src="~/js/ng/showpropertyFeatures.directive.js"></script>
+    <script src="~/js/ng/showpropertyKeyInfo.directive.js"></script>
+
+    <script src="~/js/a4u2/a4u2.map.js"></script>
+    <script src="~/js/ng/propertiesListController.js"></script>
+    <script src="~/js/ng/propertyDetailsController.js"></script>
+}
+
+<!-- This Div is required for the property map link-->
+<div id="mapDiv" style="display: none; height: 400px; width: 500px;">
+</div>
+
+<div class="row app-container" ng-app="a4u2app">
+
+    <div class="col-xs-12" ng-view></div>
+
+</div>
