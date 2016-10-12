@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
 		Notes.txt = Notes.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E8583F3E-293A-4199-992A-0A4771C0D06B}"
@@ -87,5 +88,5 @@ Global
 		{D1946332-BAFF-449F-B882-E7C47DEEAAD9} = {E8583F3E-293A-4199-992A-0A4771C0D06B}
 		{33D0E2F8-F2BC-49CC-BFB4-5FE6116250F6} = {E8583F3E-293A-4199-992A-0A4771C0D06B}
 		{7D04E4DF-FA21-4BBA-8301-7B15CEF050A3} = {E8583F3E-293A-4199-992A-0A4771C0D06B}
-	EndGlobalSection	
+	EndGlobalSection
 EndGlobal
