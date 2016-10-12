@@ -145,7 +145,7 @@ TODO
 ====
 - apply typescript to js
 - why doesn't audit filter work on azure? - It does in RTM
-- Move to Git - DONE
+- Move to Git - DONE...Update email in git repo settings
 
 New Features?
 - a Dashboard page (see spark art example) showing? browser stats? search terms
