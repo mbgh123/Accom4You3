@@ -14,7 +14,7 @@ namespace A4U3.Integrationtests3
 {
     /// <summary>
     /// The item under test is the Web Api functionality.
-    /// This class is based on the previous A4U2.IntegrationTest[X] projects.
+    /// This class is based on the previous A4U3.IntegrationTest[X] projects.
     /// But here we combine xunit testfixture setup with in memory database (see appsettings).
     /// 
     /// The tests rely on a fixed order of execution. That can't be guaranteed ???

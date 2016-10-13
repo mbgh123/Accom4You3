@@ -15,17 +15,18 @@ namespace A4U3.IntegrationTests2
 {
     /// <summary>
     /// The item under test is the Web Api functionality.
-    /// There is another test project A4U2.IntegrationTests that covers this (news up controller class)
+    /// 
+    /// There is another test project A4U3.IntegrationTests that covers this (news up controller class)
     /// But the approach here is to create a web client and pass in a url.
     /// 
-    /// The client is implemented using Microsoft.AspNet.Hosting and Microsoft.AspNet.TestHost
+    /// The client is implemented using Microsoft.AspNetCore.Hosting and Microsoft.AspNetCore.TestHost
     /// that provides TestServer class.
     /// 
     /// For each test in a xunit class file, the constructor is run prior is each test.
     /// This may be a performace problem if setup is takes time.
-    /// To address this issue xunit offers testficure classes, see WebApiTest3
+    /// To address this issue xunit offers testfixture classes, see WebApiTest3
     /// 
-    /// Unlike A4U2.IntegrationTests which copied the web startup code.
+    /// Unlike A4U3.IntegrationTests which copied the web startup code.
     /// Here, configuration is performed by referencing the web startup file.
     /// 
     /// NB the database to be used is defined via the Startup and conn string in appsettings
@@ -38,14 +39,15 @@ namespace A4U3.IntegrationTests2
         public WebApiTests2_1()
         {
             // RC1
-            // NB. Using the Startup from the web site for configuration.
-            // But it wil look for a appsettings.json in this test project....
-            // ...that was the RC1 behaviour, RTM differs.
+            // NB. Use the Startup from the web site for configuration.
+            // But it will look for a appsettings.json in this test project....
+            // ...that was the RC1 behaviour, RTM differs a little.
             //
             // RTM
             // If we use the web startup, env.ContentRootPath will be 
             // "C:\\Projects\\A4U3B\\test\\A4U3.IntegrationTest\\bin\\Debug\\Net452"
-            // so the apsettings.json wont be found (contains conn string) and the db context will fail.
+            // rather than the root of the test project, so the apsettings.json wont be found
+            //  (contains conn string) and the db context will fail.
             //
             // If I copy the web startup to this project, we can fiddle with the path to get to the parent
             // directory containing the appsetting, that problem solved.
@@ -54,7 +56,7 @@ namespace A4U3.IntegrationTests2
             // HACK So I've reverted to using the web startup, but hacked the path to check for /bin/
             // if found, drop down a few levels to the project directory.
 
-                       
+
             // use the web startup
             _server = new TestServer(new WebHostBuilder().UseStartup<A4U3.Web.Startup>());
             

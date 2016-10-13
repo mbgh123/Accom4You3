@@ -10,8 +10,9 @@ namespace A4U3.Domain.Models
         [Description("Furnished")]
         Furnished = 1,
 
-        // TODO Why does putting a space between part and furnished break json serialization in unit test webSpiTest1_2 ???
-        [Description("PartFurnished")] 
+        // TODO Why does putting a space between part and furnished break 
+        // json serialization in unit test WebApiTest1_2 ???
+        [Description("Part Furnished")] 
         PartFurnished = 2
     }
 

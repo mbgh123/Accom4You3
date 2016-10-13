@@ -6,9 +6,6 @@ namespace A4U3.Domain.Interfaces
 {
     public interface IRepository : IDisposable
     {
-        /// <summary>
-        /// PATTERN - Strategy
-        /// </summary>
         IStaticData StaticData { get; }
 
         void AddPropertyAndSave(Property prop);

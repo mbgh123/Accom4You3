@@ -6,11 +6,6 @@ namespace A4U3.Domain.Models
     {
         public string Robots { get; set; }
         public bool ShowSearch { get; set; }
-
-        /// <summary>
-        /// If this is set, then instad of using the connection string to a real DB
-        /// the EF InMemomry backing store will be used. Mostly used by unit tests.
-        /// </summary>
         public bool UseInMemoryStore { get; set; }
         public string ConnectionString { get; set; }
 
