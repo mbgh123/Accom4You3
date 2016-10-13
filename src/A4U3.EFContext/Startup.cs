@@ -24,9 +24,7 @@ namespace A4U3.EFContext
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ConfigOptions>(Configuration.GetSection("ConfigOptions"));
-                       
             
-            // TODO : check con string
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration["ConfigOptions:ConnectionString"]));
 

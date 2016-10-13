@@ -41,8 +41,6 @@ namespace A4U3.IntegratiopnTests2
             // MVC6 associate the ConfigOptions section from the  json config  with the ConfigOptions class
             services.Configure<ConfigOptions>(Configuration.GetSection("ConfigOptions"));
 
-
-            // TODO : check con string
             var connection = Configuration["ConfigOptions:ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connection));
@@ -70,13 +68,12 @@ namespace A4U3.IntegratiopnTests2
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            // TODO A4U2 Stuff
+            // My Stuff
             services.AddScoped<IRepository, Repository.RepositoryEF>();
             services.AddScoped<IStaticData, Repository.StaticDataProvider>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         }
 
-        //public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -90,7 +87,6 @@ namespace A4U3.IntegratiopnTests2
             }
 
             app.UseStaticFiles();
-
 
             //app.UseApplicationInsightsExceptionTelemetry();
 

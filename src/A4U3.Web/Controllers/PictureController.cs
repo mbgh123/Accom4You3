@@ -58,7 +58,7 @@ namespace A4U3.Web.Controllers
 
             var basePath = env.ContentRootPath;
 
-            // TODO: Are we on Azure. must be a better way of detecting this
+            // TODO: Are we on Azure? must be a better way of detecting this
             if (basePath.StartsWith("D:\\home\\site\\")) 
             {
                 // We have probably have D:\\home\\site\\approot\\src\\A4U3.Web
@@ -70,16 +70,14 @@ namespace A4U3.Web.Controllers
             var uploadPath = Path.Combine(basePath, "uploads");
 
             var path = Path.Combine(uploadPath, picture.UniqueName);
-
             
-            //file.SaveAs(path); // RC1
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
                 file.CopyTo(fileStream);
             }
 
 
-
+            // Create thumbnail image
             Image image = Image.FromFile(path);
             Image thumb = image.GetThumbnailImage(300, 300, () => false, IntPtr.Zero);
             string thumbName = string.Format("{0}_{2}_thumb_{1}", picture.PropertyId, picture.OriginalName, guid);
@@ -114,7 +112,6 @@ namespace A4U3.Web.Controllers
             // Not all the picture fields are populated by the form (we didn't shown UniqueName for example)
             // We are just interested in the the Description
 
-            // TODO-low There's probably a better way of doing this. Doing what ???
             string desc = picture.Description;
             picture = rep.GetPictureById(picture.PictureId);
             picture.Description = desc;
@@ -157,8 +154,9 @@ namespace A4U3.Web.Controllers
                     System.IO.File.Delete(path);
                 }
                 catch (Exception)
-                {                    
-                    // TODO-low use async??? - I once got a "can't delete file, in use by another process" Catch all for now
+                {
+                    // TODO-high  I once got a "can't delete file, in use by another process" 
+                    // Catch all for now
                 }
             }
         }

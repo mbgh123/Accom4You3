@@ -9,7 +9,7 @@ namespace A4U3.Web.Infrastructure
 {
     public class MyAuthorizationAttribute : AuthorizeAttribute
     {
-        //TODO-low how does authorize filter work in MVC6?
+        //TODO-high how does authorize filter work in MVC6?
 
         /// <summary>
         /// NB. This authorize filter method will run before any other defines action/result methods

@@ -136,7 +136,7 @@ dnx ef database update
 Applying migrations to production
 =================================
 This is not the recommened way, see http://cpratt.co/migrating-production-database-with-entity-framework-code-first/
-But for this smal scale app, it will suffice.
+But for this small scale app, it will suffice.
 After adding a new migration and applying with update to the local db...
 ...change the CS in the appsettings to point to the poduction db.
 

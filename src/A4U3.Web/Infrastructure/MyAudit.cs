@@ -31,7 +31,6 @@ namespace A4U3.Web.Infrastructure
                 // Looks like GetFeatures has changed to Features.Get
                 //var ipAddress = filterContext.HttpContext.Features.Get<IHttpConnectionFeature>()?.RemoteIpAddress;
 
-                // TODO MVC6 ip address? need to test.
                 string userHostAddress = filterContext.HttpContext.Connection.RemoteIpAddress?.ToString();
 
                 string controller = filterContext.RouteData.Values["controller"]?.ToString();

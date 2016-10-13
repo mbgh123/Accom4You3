@@ -41,7 +41,8 @@ namespace A4U3.Web.Controllers
 
             var props = rep.GetPropertiesAndChildren(enabledOnly: true).AsEnumerable();
 
-            // TODO-low : Should I pass the filter to the repository rather than getting all data and filtering here?
+            // NB: For high volume data I should I pass the filter to the repository 
+            // rather than getting all data and filtering here.
             props = props.Where(x => x.IsFilterMatch(fi));
 
 
@@ -67,7 +68,8 @@ namespace A4U3.Web.Controllers
 
             var props = rep.GetPropertiesAndChildren(enabledOnly: true).AsEnumerable();
 
-            // TODO-low : Should I pass the filter to the repository rather than getting all data and filtering here?
+            // NB: For high volume data I should I pass the filter to the repository 
+            // rather than getting all data and filtering here.
             props = props.Where(x => x.IsFilterMatch(fi));
 
             // sorting !
@@ -328,7 +330,6 @@ namespace A4U3.Web.Controllers
         {
             if (Request.Method.ToLower() == "get")
             {
-                //TODO-low Can Session.Keys be used to probe available objects in Session? 
                 var temp = HttpContext.Session.GetObjectFromJson<FilterItems>("Filter");
                 if (temp != null)
                 {

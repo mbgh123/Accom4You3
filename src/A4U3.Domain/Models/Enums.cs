@@ -10,8 +10,6 @@ namespace A4U3.Domain.Models
         [Description("Furnished")]
         Furnished = 1,
 
-        // TODO Why does putting a space between part and furnished break 
-        // json serialization in unit test WebApiTest1_2 ???
         [Description("Part Furnished")] 
         PartFurnished = 2
     }
@@ -30,7 +28,6 @@ namespace A4U3.Domain.Models
 
     public enum SortOrder
     {
-        //TODO-low change something more user friendly, less developer focused.
         [Description("Default sort order")]
         Default = 0,
         [Description("Price lowest first")]

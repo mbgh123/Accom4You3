@@ -89,7 +89,7 @@ namespace A4U3.Repository
         /// </summary>
         public List<Audit> GetAuditsFiltered(bool excludeRobots, bool excludeMe, string searchTerm, string order)
         {
-            //TODO determine the point of filtering. Here or in the DB?
+            //TODO determine the point of filtering. Here or in the DB? - It's Both, see below.
 
             var robots = StaticData.GetRobotList();
 
@@ -128,7 +128,7 @@ namespace A4U3.Repository
                                   .Where(x => excludeMe == false || !IsMe(x.Url, x.UserHostAddress));
 
 
-            // The Orderby IS passed into SQL despite the elements above that aren't!
+            // NB The Orderby Is passed into SQL despite the elements above that aren't!
             if (order == "asc")
             {
                 return result.OrderBy(a => a.DateTime).ToList();

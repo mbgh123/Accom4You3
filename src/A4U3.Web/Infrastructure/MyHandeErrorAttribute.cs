@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace A4U3.Web.Infrastructure
 {
-    //TODO-low how does Handlerror work in MVC6 ?
+    //TODO-high how does Handlerror work in MVC6 ?
     
     //public class MyHandeErrorAttribute : HandleErrorAttribute
     //{

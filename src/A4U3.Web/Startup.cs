@@ -51,8 +51,6 @@ namespace A4U3.Web
             // MVC6 associate the ConfigOptions section from the  json config  with the ConfigOptions class
             services.Configure<ConfigOptions>(Configuration.GetSection("ConfigOptions"));
 
-
-            // TODO : check con string
             var connection = Configuration["ConfigOptions:ConnectionString"];
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -81,7 +79,7 @@ namespace A4U3.Web
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            // TODO A4U2 Stuff
+            // My Stuff
             services.AddScoped<IRepository, Repository.RepositoryEF>();
             services.AddScoped<IStaticData, StaticDataProvider>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
@@ -104,7 +102,6 @@ namespace A4U3.Web
             }
 
             app.UseStaticFiles();
-
 
             app.UseApplicationInsightsExceptionTelemetry();
 
