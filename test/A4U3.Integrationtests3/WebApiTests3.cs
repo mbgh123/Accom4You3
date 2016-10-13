@@ -14,17 +14,18 @@ namespace A4U3.Integrationtests3
 {
     /// <summary>
     /// The item under test is the Web Api functionality.
+    /// Using In Memory backing for the EF context.
+    /// 
     /// This class is based on the previous A4U3.IntegrationTest[X] projects.
     /// But here we combine xunit testfixture setup with in memory database (see appsettings).
     /// 
-    /// The tests rely on a fixed order of execution. That can't be guaranteed ???
+    /// The tests rely on a fixed order of execution. That can't be guaranteed.
     /// For example, the first test expects the database to be empty, the later tests populate the db.
     /// If the first test doesn't run first, it will find data in the db and fail.
     /// 
     /// Things to consider:
     /// xunit (since version 2) will run tests from different test classes in parallel.
-    /// We are using asynch on the tests.
-    /// 
+    /// Does async make a difference? no
     /// </summary>
     [Collection("Test Collection #1")]  // Classes in same collection are not run in parallel: https://xunit.github.io/docs/running-tests-in-parallel.html
     public class WebApiTests3 : IClassFixture<TestServerFixture>

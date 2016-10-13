@@ -15,6 +15,7 @@ namespace A4U3.IntegrationTests2
 {
     /// <summary>
     /// The item under test is the Web Api functionality.
+    /// Using an actual SQL to back the EF context.
     /// 
     /// There is another test project A4U3.IntegrationTests that covers this (news up controller class)
     /// But the approach here is to create a web client and pass in a url.

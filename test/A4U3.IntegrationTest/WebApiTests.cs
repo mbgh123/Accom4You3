@@ -26,7 +26,7 @@ namespace A4U3.IntegrationTests
     /// <summary>
     /// The item under test is the PropertiesController.
     /// 
-    /// Use of In Memory backing for the EF context.
+    /// Using In Memory backing for the EF context.
     /// From http://www.jerriepelser.com/blog/unit-testing-aspnet5-entityframework7-inmemory-database
     /// 
     /// We have do do some configuration first, largely copied from the website's startup.
