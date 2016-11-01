@@ -27,7 +27,7 @@ namespace A4U3.Web.Controllers
         [HttpGet]
         public IEnumerable<PropertyVM> GetProperties()
         {
-            //Thread.Sleep(1000); 
+            Thread.Sleep(2000); 
 
             var result = _rep.GetPropertiesAndChildren()
                              .Select(x => x.ToPropertyVM(shortDescriptionLength: 200));
@@ -79,25 +79,28 @@ namespace A4U3.Web.Controllers
         // This is an UPDATE operation
         // PUT: api/Properties/5
         [HttpPut("{id}")]
-        public IActionResult PutProperty(int id, [FromBody] Property property)
+        public IActionResult PutProperty(int id, [FromBody] PropertyVM propertyVM)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != property.PropertyId)
+            if (id != propertyVM.PropertyId)
             {
                 return BadRequest();
             }
 
+            var property = propertyVM.ToProperty();
 
             //TODO There is no status returned from my Update. What if it fails? Add return codes?
             _rep.UpdatePropertyAndSave(property);
 
             //TODO I'm not returning the Property, but should I?
             //see http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
-            return new StatusCodeResult(StatusCodes.Status204NoContent);
+            //return new StatusCodeResult(StatusCodes.Status204NoContent);
+
+            return Ok(propertyVM);
         }
 
         // DELETE: api/Properties/5

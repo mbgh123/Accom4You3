@@ -3,12 +3,12 @@
 
     angular.module('a4u2app', [
         // Angular modules 
-        'ngRoute'
+        'ngRoute',
 
         // Custom modules 
 
         // 3rd Party Modules
-        
+        'xeditable'
     ])
     .config(function ($routeProvider) {
 
@@ -28,6 +28,12 @@
             controller: "propertyEditorController",
             controllerAs: "vm",
             templateUrl: "/views/propertyEditorView.html"
+        });
+
+        $routeProvider.when("/detailscms/:propertyId", {
+            controller: "propertyDetailsControllerCms",
+            controllerAs: "vm",
+            templateUrl: "/views/propertyDetailsViewCms.html"
         });
 
         $routeProvider.otherwise({ redirectTo: "/" });

@@ -44,6 +44,46 @@ namespace A4U3.Web.Helpers
             return result;
         }
 
+        public static Property ToProperty(this PropertyVM propVM)
+        {
+            if (propVM == null)
+            {
+                return null;
+            }
+
+            var result = new Property()
+            {
+                isEnabled = propVM.isEnabled,
+
+                PropertyId = propVM.PropertyId,
+                Address = propVM.Address,
+                PostCode = propVM.PostCode,
+
+                //TODO Having added a space to "Part Furnished" so it looks nice on the UI.
+                //converting it back to the enum is a pain.
+                Furnishing = (Furnishing)Enum.Parse(typeof(Furnishing),  propVM.Furnishing.Replace(" ", String.Empty)),
+
+                Description = propVM.Description,
+                Features = propVM.Features,
+                Pictures = propVM.Pictures,
+                RatePCM = propVM.RatePCM,
+                Bedrooms = propVM.Bedrooms
+            };
+
+            if (propVM.Location == null)
+            {
+                result.Latitude = "";
+                result.Longitude = "";
+            }
+            else
+            {
+                result.Latitude = propVM.Location.Lat.ToString();
+                result.Longitude = propVM.Location.Long.ToString();
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// We need the robots list to determine if its a robot
         /// </summary>

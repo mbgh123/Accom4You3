@@ -9,7 +9,11 @@
     <div class="col-md-12">
         <div class="panel panel-info property-listing">
             <div class="panel-heading address">
-                <span>{{ vm.property.address}}</span>
+                <span>
+                    <a editable-text="vm.property.address" onaftersave="updateProperty()">
+                        {{ vm.property.address }}
+                    </a>
+                </span>
                 <span class="rate pull-right">£{{vm.property.ratePCM }} <abbr title="per calendar month">pcm</abbr></span>
             </div>
             <div class="panel-body">
@@ -17,7 +21,27 @@
                     <div class="col-sm-9">
                         <div show-property-features property="vm.property"></div>
                         <br />
-                        <div show-property-key-info property="vm.property"></div>
+                        <div class="appkeyinfo">
+                            <div>
+                                <span class="text-info">Rate: </span>£
+                                <a href="#" editable-number="vm.property.ratePCM" onaftersave="updateProperty()">
+                                    {{ vm.property.ratePCM || 'empty' }}
+                                </a>
+                            </div>
+                            <div>
+                                <span class="text-info">Bedrooms:</span>
+                                <a href="#" editable-number="vm.property.bedrooms" e-min="1" onaftersave="updateProperty()">
+                                    {{ vm.property.bedrooms || 'empty' }}
+                                </a>
+                            </div>
+                            <div>
+                                <span class="text-info">Furnishing:</span>
+
+                                <a href="#" editable-select="vm.property.furnishing" e-ng-options="s.value as s.text for s in furnishings" onaftersave="updateProperty()">
+                                    {{ showFurnishings() }}
+                                </a>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="col-sm-3 app-pictures">
@@ -27,7 +51,9 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <p>{{ vm.property.description }}</p>
+                        <a editable-textarea="vm.property.description" e-rows="7" e-cols="40">
+                            {{ vm.property.description }}
+                        </a>
                     </div>
                 </div>
 

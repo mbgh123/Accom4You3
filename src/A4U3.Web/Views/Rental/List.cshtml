@@ -50,7 +50,9 @@
             <td class="navigation">
                 @Html.ActionLink("Details", "DetailsCMS", new { id = item.PropertyId }) |
                 @Html.ActionLink("Edit", "Edit", new { id = item.PropertyId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.PropertyId })
+                @Html.ActionLink("Delete", "Delete", new { id = item.PropertyId }) |
+                <a href="~/App#/detailscms/@item.PropertyId">ngEdit</a>
+
             </td>
         </tr>
     }
