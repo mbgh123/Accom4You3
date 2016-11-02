@@ -57,7 +57,7 @@
                 @Html.TextBoxFor(model => model.PostCode, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PostCode)
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 @if (Model.Latitude != null)
                 {
                     <span>(Long: @Model.Longitude ,Lat: @Model.Latitude )</span>

@@ -21,6 +21,7 @@
                     <div class="col-sm-9">
                         <div show-property-features property="vm.property"></div>
                         <br />
+
                         <div class="appkeyinfo">
                             <div>
                                 <span class="text-info">Rate: </span>£
@@ -39,6 +40,12 @@
 
                                 <a href="#" editable-select="vm.property.furnishing" e-ng-options="s.value as s.text for s in furnishings" onaftersave="updateProperty()">
                                     {{ showFurnishings() }}
+                                </a>
+                            </div>
+                            <div>
+                                <span class="text-info">PostCode: </span>£
+                                <a href="#" editable-text="vm.property.postCode" onaftersave="updateProperty()">
+                                    {{ vm.property.postCode || 'empty' }}
                                 </a>
                             </div>
                         </div>

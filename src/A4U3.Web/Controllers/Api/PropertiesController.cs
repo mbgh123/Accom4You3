@@ -9,6 +9,7 @@ using A4U3.Domain.Interfaces;
 using A4U3.Web.Helpers;
 using A4U3.Web.Models.ViewModel;
 using System.Threading;
+using System;
 
 namespace A4U3.Web.Controllers
 {
@@ -17,10 +18,13 @@ namespace A4U3.Web.Controllers
     public class PropertiesController : Controller
     {
         private IRepository _rep;
+        protected IGeoService _geoService;
 
-        public PropertiesController (IRepository rep)
+
+        public PropertiesController (IRepository rep, IGeoService geoService)
         {
             _rep = rep;
+            _geoService = geoService;
         }
 
         // GET: api/Properties
@@ -64,6 +68,8 @@ namespace A4U3.Web.Controllers
                 return BadRequest(ModelState);
             }
 
+            SetGeoPoint(property);
+
             //TODO again, no return codes, how handle failure 
             _rep.AddPropertyAndSave(property);
          
@@ -92,6 +98,9 @@ namespace A4U3.Web.Controllers
             }
 
             var property = propertyVM.ToProperty();
+
+            SetGeoPoint(property);
+
 
             //TODO There is no status returned from my Update. What if it fails? Add return codes?
             _rep.UpdatePropertyAndSave(property);
@@ -133,10 +142,30 @@ namespace A4U3.Web.Controllers
             base.Dispose(disposing);
         }
 
-        private bool PropertyExists(int id)
+        /// <summary>
+        /// Sets Lat and Long on property using PostCode and google apis
+        /// </summary>
+        private void SetGeoPoint(Property property)
         {
-            return  _rep.GetPropertyById(id) != null;
-            //return _context.Properties.Count(e => e.PropertyId == id) > 0;
+            if (string.IsNullOrEmpty(property.PostCode))
+            {
+                property.Latitude = null;
+                property.Longitude = null;
+                return;
+            }
+
+            var geo = _geoService.GetGeoPoint(property.PostCode);
+
+            if (geo == null)    // invalid postcode, no location found
+            {
+                property.Latitude = null;
+                property.Longitude = null;
+                return;
+            }
+
+            property.Latitude = geo.Lat.ToString();
+            property.Longitude = geo.Long.ToString();
+
         }
     }
 }

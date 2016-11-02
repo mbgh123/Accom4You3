@@ -65,9 +65,12 @@ namespace A4U3.IntegrationTests
             //Set up the controller
             var serviceProvider = services.BuildServiceProvider();
             var rep = serviceProvider.GetRequiredService<IRepository>();
+
+            IGeoService geoService = null;
+
             Utility.PopulateDB(rep);
 
-            _controller = new PropertiesController(rep);
+            _controller = new PropertiesController(rep, geoService);
         }
 
         #region Setup data

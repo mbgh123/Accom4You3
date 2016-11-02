@@ -18,6 +18,7 @@ using A4U3.EFContext;
 using A4U3.Domain.Models;
 using cloudscribe.Web.Pagination;
 using A4U3.TestTools;
+using A4U3.Web.Infrastructure;
 
 namespace A4U3.Web
 {
@@ -83,6 +84,8 @@ namespace A4U3.Web
             services.AddScoped<IRepository, Repository.RepositoryEF>();
             services.AddScoped<IStaticData, StaticDataProvider>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            services.AddScoped<IGeoService, GeoService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
