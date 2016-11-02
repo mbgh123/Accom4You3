@@ -72,6 +72,32 @@
         };
 
 
+        /* Feature logic*/
+        $scope.saveFeature = function (data) {
+
+            var feature = {
+                featureId: 0,      /* the DB will assign the id*/
+                propertyId: vm.property.propertyId,
+                description: data.description
+            };
+
+            return $http.post('/api/features', feature);
+        };
+
+        // remove Feature
+        $scope.removeFeature = function (index) {
+            vm.property.features.splice(index, 1);
+        };
+
+        // add Feature
+        $scope.addFeature = function () {
+            $scope.inserted = {
+                featureId: vm.property.features.length + 1, /*TODO*/
+                description: 'Enter Feature',
+                propertyId: vm.property.propertyId
+            };
+            vm.property.features.push($scope.inserted);
+        };
     }
 
     // _prefix is a shorthand for a private function

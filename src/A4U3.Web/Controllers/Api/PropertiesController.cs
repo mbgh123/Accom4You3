@@ -133,15 +133,6 @@ namespace A4U3.Web.Controllers
             return Ok(property);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _rep.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         /// <summary>
         /// Sets Lat and Long on property using PostCode and google apis
         /// </summary>
@@ -166,6 +157,14 @@ namespace A4U3.Web.Controllers
             property.Latitude = geo.Lat.ToString();
             property.Longitude = geo.Long.ToString();
 
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _rep.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
