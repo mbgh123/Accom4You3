@@ -93,7 +93,7 @@
         $scope.addFeature = function () {
             $scope.inserted = {
                 featureId: vm.property.features.length + 1, /*TODO*/
-                description: 'Enter Feature',
+                description: '',
                 propertyId: vm.property.propertyId
             };
             vm.property.features.push($scope.inserted);

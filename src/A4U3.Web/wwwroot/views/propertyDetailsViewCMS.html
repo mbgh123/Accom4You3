@@ -19,44 +19,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-sm-9">
-
-                        <table class="table table-bordered table-hover table-condensed">
-                            <tr style="font-weight: bold">
-                                <td style="width:75%">Feature</td>
-                                <td style="width:25%">Edit</td>
-                            </tr>
-
-                            <tr ng-repeat="feature in vm.property.features">
-                                <td>
-                                    <!-- editable feature (text with validation) -->
-                                    <span editable-text="feature.description" e-name="description" e-form="rowform">
-                                        {{ feature.description || 'empty' }}
-                                    </span>
-                                </td>
-
-                                <td style="white-space: nowrap">
-                                    <!-- form -->
-                                    <form editable-form name="rowform" onbeforesave="saveFeature($data)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == feature">
-                                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-                                            save
-                                        </button>
-                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-                                            cancel
-                                        </button>
-                                    </form>
-                                    <div class="buttons" ng-show="!rowform.$visible">
-                                        <button type="button" class="btn btn-primary" ng-click="rowform.$show()">edit</button>
-                                        <button type="button" class="btn btn-danger" ng-click="removeFeature($index)">del</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-
-                        <button type="button" class="btn btn-default" ng-click="addFeature()">Add row</button>
-
-
-                        <br />
-
+                        
                         <div class="appkeyinfo">
                             <div>
                                 <span class="text-info">Rate: </span>£
@@ -90,7 +53,46 @@
                         <div show-property-pics property="vm.property"></div>
                     </div>
                 </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-8">
+                        <table class="table table-bordered table-hover table-condensed">
+                            <tr style="font-weight: bold">
+                                <td style="width:75%">Feature</td>
+                                <td style="width:25%">Edit</td>
+                            </tr>
 
+                            <tr ng-repeat="feature in vm.property.features">
+                                <td>
+                                    <!-- editable feature (text with validation) -->
+                                    <span editable-text="feature.description" e-name="description" e-form="rowform">
+                                        {{ feature.description || 'empty' }}
+                                    </span>
+                                </td>
+
+                                <td style="white-space: nowrap">
+                                    <!-- form -->
+                                    <form editable-form name="rowform" onbeforesave="saveFeature($data)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == feature">
+                                        <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                                            save
+                                        </button>
+                                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                                            cancel
+                                        </button>
+                                    </form>
+                                    <div class="buttons" ng-show="!rowform.$visible">
+                                        <button type="button" class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+                                        <button type="button" class="btn btn-danger" ng-click="removeFeature($index)">del</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <button type="button" class="btn btn-default" ng-click="addFeature()">Add row</button>
+                    </div>
+                </div>
+
+                <br />
                 <div class="row">
                     <div class="col-xs-12">
                         <a editable-textarea="vm.property.description" e-rows="7" e-cols="40">
@@ -99,6 +101,7 @@
                     </div>
                 </div>
 
+                <br />
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
                         <!-- NB ng-show interferes with the display of google maps. Don't use!-->
