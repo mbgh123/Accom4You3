@@ -86,13 +86,20 @@
 
         // remove Feature
         $scope.removeFeature = function (index) {
+            var featureId = vm.property.features[index].featureId;
+
             vm.property.features.splice(index, 1);
+
+            // If the user added then immediately deleted (before saving) then the feature isnn't in the DB.
+            if (featureId) {
+                $http.delete('api/features/' + featureId);
+            }
         };
 
         // add Feature
         $scope.addFeature = function () {
             $scope.inserted = {
-                featureId: vm.property.features.length + 1, /*TODO*/
+                featureId: 0,       /* The final value will be set by the DB store operation*/
                 description: '',
                 propertyId: vm.property.propertyId
             };

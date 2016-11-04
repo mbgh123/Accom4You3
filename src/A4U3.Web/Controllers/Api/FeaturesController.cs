@@ -54,7 +54,11 @@ namespace A4U3.Web.Controllers.Api
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            // In EF we have to retrieve the entity before it can be deleted !
 
+            var feature = _rep.GetFeatureById(id);
+
+            _rep.RemoveFeatureAndSave(feature);
         }
     }
 }
