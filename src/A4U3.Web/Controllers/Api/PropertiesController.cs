@@ -10,11 +10,13 @@ using A4U3.Web.Helpers;
 using A4U3.Web.Models.ViewModel;
 using System.Threading;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace A4U3.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/Properties")]
+    [Authorize]
     public class PropertiesController : Controller
     {
         private IRepository _rep;
