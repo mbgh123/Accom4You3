@@ -60,6 +60,7 @@
             { value: 'Furnished', text: 'Furnished' },
             { value: 'Part Furnished', text: 'Part Furnished' }
         ];
+
         $scope.showFurnishings = function () {
 
             var selected = $filter('filter')($scope.furnishings, { value: vm.property.furnishing }, true);
@@ -72,7 +73,9 @@
         };
 
 
-        /* Feature logic*/
+        /* Feature logic
+         * =============
+         */
         $scope.saveFeature = function (data) {
 
             var feature = {
@@ -84,7 +87,6 @@
             return $http.post('/api/features', feature);
         };
 
-        // remove Feature
         $scope.removeFeature = function (index) {
             var featureId = vm.property.features[index].featureId;
 
@@ -96,7 +98,6 @@
             }
         };
 
-        // add Feature
         $scope.addFeature = function () {
             $scope.inserted = {
                 featureId: 0,       /* The final value will be set by the DB store operation*/
@@ -107,7 +108,7 @@
         };
     }
 
-    // _prefix is a shorthand for a private function
+
     function _showMap(lat, long, address) {
         // Show map
 

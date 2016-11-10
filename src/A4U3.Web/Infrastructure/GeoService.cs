@@ -15,7 +15,7 @@ namespace A4U3.Web.Infrastructure
     public class GeoService : IGeoService
     {
         /// <summary>
-        /// Here's we're calling google geodata from the server. This may not be strictly
+        /// Here we're calling google geodata from the server. This may not be strictly
         /// allowed by google.
         /// </summary>
         public GeoLocation GetGeoPoint(string postcode)
