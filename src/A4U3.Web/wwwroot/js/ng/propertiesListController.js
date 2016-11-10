@@ -24,7 +24,7 @@
         // filtering functions for ng-repeat
         $scope.greaterThanFilter = function (rate) {
             return function (item) {
-                if (rate == null) {
+                if (rate === null) {
                     return true;        // rate not set
                 }
                 else {
@@ -39,8 +39,8 @@
                     return true;        // bedrooms not set
                 }
                 else {
-                    if (bedrooms == 1) {
-                        return item.bedrooms == bedrooms;
+                    if (bedrooms === 1) {
+                        return item.bedrooms === bedrooms;
                     } else {
                         return item.bedrooms >= bedrooms;
                     }
