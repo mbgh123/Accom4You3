@@ -5,9 +5,9 @@
         .module('a4u2app')
         .controller('propertyDetailsController', propertyDetailsController);
 
-    propertyDetailsController.$inject = ['$routeParams', '$http', '$location' ];
+    propertyDetailsController.$inject = ['$routeParams', '$http' ];
 
-    function propertyDetailsController($routeParams, $http, $location ) {
+    function propertyDetailsController($routeParams, $http ) {
         /* jshint validthis:true */
 
         _fancyBox();
@@ -18,7 +18,10 @@
         vm.errorMessage = "";
         vm.isBusy = true;
         vm.property = {};
-        vm.frommap = $location.search().frommap // get query string frommap
+
+        //vm.frommap = $location.search().frommap // get query string frommap
+        // $routeParams also contains the query string items
+        vm.frommap = $routeParams.frommap // get query string frommap
 
 
         // same url for Post and Get
