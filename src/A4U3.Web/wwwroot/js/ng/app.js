@@ -24,12 +24,6 @@
             templateUrl: "/views/propertyDetailsView.html"
         });
 
-        $routeProvider.when("/editor/:propertyId", {
-            controller: "propertyEditorController",
-            controllerAs: "vm",
-            templateUrl: "/views/propertyEditorView.html"
-        });
-
         $routeProvider.when("/detailscms/:propertyId", {
             controller: "propertyDetailsControllerCms",
             controllerAs: "vm",
