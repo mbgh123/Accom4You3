@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace A4U3.Web.Infrastructure
 {
+    /// <summary>
+    /// Authorization in MVC6 has changed. See http://stackoverflow.com/questions/35825021/override-global-authorize-filter-in-mvc-6
+    /// </summary>
     public class MyAuthorizationAttribute : AuthorizeAttribute
     {
         //TODO-high how does authorize filter work in MVC6?
