@@ -1,36 +1,35 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DAC729DF-8F8B-401E-A81C-D426E78A6AC0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F8B683B0-33B2-44A0-83D0-51CFBFF0F441}"
 	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
 		Notes.txt = Notes.txt
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E8583F3E-293A-4199-992A-0A4771C0D06B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.TestTools", "test\A4U3.TestTools\A4U3.TestTools.xproj", "{DD113616-5CA8-47B8-94A4-B712C3BE1D11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.TestTools", "test\A4U3.TestTools\A4U3.TestTools.csproj", "{DD113616-5CA8-47B8-94A4-B712C3BE1D11}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.Domain", "src\A4U3.Domain\A4U3.Domain.xproj", "{0D617A21-0E99-43B4-8F2E-D36E6092402A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.Domain", "src\A4U3.Domain\A4U3.Domain.csproj", "{0D617A21-0E99-43B4-8F2E-D36E6092402A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.EFContext", "src\A4U3.EFContext\A4U3.EFContext.xproj", "{573AF1F1-9CBE-4060-B7EE-A52C1B88E6A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.EFContext", "src\A4U3.EFContext\A4U3.EFContext.csproj", "{573AF1F1-9CBE-4060-B7EE-A52C1B88E6A7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.Repository", "src\A4U3.Repository\A4U3.Repository.xproj", "{47FED20D-3093-4DAA-AD78-0129A32F6D38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.Repository", "src\A4U3.Repository\A4U3.Repository.csproj", "{47FED20D-3093-4DAA-AD78-0129A32F6D38}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.Web", "src\A4U3.Web\A4U3.Web.xproj", "{EECA8573-B982-4085-94AB-94631E7E31A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.Web", "src\A4U3.Web\A4U3.Web.csproj", "{EECA8573-B982-4085-94AB-94631E7E31A5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.MiscTests", "test\A4U3.MiscTests\A4U3.MiscTests.xproj", "{0FE3D816-1F96-4706-AB8B-E8774C5C6DF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.MiscTests", "test\A4U3.MiscTests\A4U3.MiscTests.csproj", "{0FE3D816-1F96-4706-AB8B-E8774C5C6DF8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.IntegrationTest", "test\A4U3.IntegrationTest\A4U3.IntegrationTest.xproj", "{D1946332-BAFF-449F-B882-E7C47DEEAAD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.IntegrationTest", "test\A4U3.IntegrationTest\A4U3.IntegrationTest.csproj", "{D1946332-BAFF-449F-B882-E7C47DEEAAD9}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.IntegrationTests2", "test\A4U3.IntegrationTests2\A4U3.IntegrationTests2.xproj", "{33D0E2F8-F2BC-49CC-BFB4-5FE6116250F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.IntegrationTests2", "test\A4U3.IntegrationTests2\A4U3.IntegrationTests2.csproj", "{33D0E2F8-F2BC-49CC-BFB4-5FE6116250F6}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "A4U3.IntegrationTests3", "test\A4U3.Integrationtests3\A4U3.IntegrationTests3.xproj", "{7D04E4DF-FA21-4BBA-8301-7B15CEF050A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "A4U3.Integrationtests3", "test\A4U3.Integrationtests3\A4U3.Integrationtests3.csproj", "{7D04E4DF-FA21-4BBA-8301-7B15CEF050A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,5 +87,8 @@ Global
 		{D1946332-BAFF-449F-B882-E7C47DEEAAD9} = {E8583F3E-293A-4199-992A-0A4771C0D06B}
 		{33D0E2F8-F2BC-49CC-BFB4-5FE6116250F6} = {E8583F3E-293A-4199-992A-0A4771C0D06B}
 		{7D04E4DF-FA21-4BBA-8301-7B15CEF050A3} = {E8583F3E-293A-4199-992A-0A4771C0D06B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {48F7DAA0-B976-4AEA-BE5A-28A8C8A41FA1}
 	EndGlobalSection
 EndGlobal
