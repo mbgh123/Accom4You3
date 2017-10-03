@@ -15,14 +15,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\A4U3.Domain\A4U3.Domain.csproj" />
+    <ProjectReference Include="..\..\src\A4U3.EFContext\A4U3.EFContext.csproj" />
     <ProjectReference Include="..\..\src\A4U3.Web\A4U3.Web.csproj" />
     <ProjectReference Include="..\A4U3.TestTools\A4U3.TestTools.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit" Version="2.2.0-beta5-build3474" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0-beta5-build1225" />
-    <PackageReference Include="FluentAssertions" Version="4.0.1" />
+    <PackageReference Include="xunit" Version="2.3.0-rc1-build3809" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.0-rc1-build3809" />
+    <PackageReference Include="FluentAssertions" Version="5.0.0-beta0002" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.3" />
   </ItemGroup>
