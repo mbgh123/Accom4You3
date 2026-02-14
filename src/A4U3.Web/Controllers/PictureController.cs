@@ -7,7 +7,6 @@ using A4U3.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
@@ -19,9 +18,9 @@ namespace A4U3.Web.Controllers
     public class PictureController : Controller
     {
         protected IRepository rep;
-        private IHostingEnvironment env;
+        private IWebHostEnvironment env;
 
-        public PictureController(IRepository rep, IHostingEnvironment appEnvironment)
+        public PictureController(IRepository rep, IWebHostEnvironment appEnvironment)
         {
             this.rep = rep;
             this.env = appEnvironment;
