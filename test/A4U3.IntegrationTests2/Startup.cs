@@ -1,18 +1,18 @@
-﻿using System;
+using A4U3.Domain.Interfaces;
+using A4U3.Domain.Models;
+using A4U3.EFContext;
+using A4U3.TestTools;
+using A4U3.Web.Services;
+using cloudscribe.Web.Pagination;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using A4U3.TestTools;
-using Microsoft.Extensions.DependencyInjection;
-using A4U3.EFContext;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using A4U3.Domain.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using cloudscribe.Web.Pagination;
-using A4U3.Web.Services;
-using A4U3.Domain.Interfaces;
+using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 
 namespace A4U3.IntegratiopnTests2
 {
@@ -23,7 +23,7 @@ namespace A4U3.IntegratiopnTests2
     {
         public IConfigurationRoot Configuration { get; }
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var path = Utility.ReturnRoot();
 
@@ -38,48 +38,40 @@ namespace A4U3.IntegratiopnTests2
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // MVC6 associate the ConfigOptions section from the  json config  with the ConfigOptions class
             services.Configure<ConfigOptions>(Configuration.GetSection("ConfigOptions"));
 
             var connection = Configuration["ConfigOptions:ConnectionString"];
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connection));
 
-            //services.AddApplicationInsightsTelemetry(Configuration);
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add framework services.
-            services.AddMvc()
-                 .AddJsonOptions(o =>
-                 {
-                     o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                 });
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(o =>
+                {
+                    o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
 
             services.TryAddTransient<IBuildPaginationLinks, PaginationLinkBuilder>();
 
-            // TODO Needed for Session  
-            //services.AddCaching();
+            services.AddMemoryCache();
             services.AddSession();
 
-            // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            // My Stuff
             services.AddScoped<IRepository, Repository.RepositoryEF>();
             services.AddScoped<IStaticData, Repository.StaticDataProvider>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
             }
             else
             {
@@ -87,20 +79,16 @@ namespace A4U3.IntegratiopnTests2
             }
 
             app.UseStaticFiles();
-
-            //app.UseApplicationInsightsExceptionTelemetry();
-
-            app.UseIdentity();
-
-            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
-
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseSession();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
