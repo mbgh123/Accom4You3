@@ -1,27 +1,34 @@
-using A4U3.Domain.Interfaces;
-using A4U3.Domain.Models;
-using A4U3.EFContext;
-using A4U3.Repository;
-using A4U3.TestTools;
-using A4U3.Web.Services;
-using cloudscribe.Web.Pagination;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using A4U3.Web.Services;
+using A4U3.Domain.Interfaces;
+using A4U3.Repository;
+using A4U3.EFContext;
+using A4U3.Domain.Models;
+using cloudscribe.Web.Pagination;
+using A4U3.TestTools;
 
 namespace A4U3.Web
 {
     public class Startup
     {
-        public Startup(IWebHostEnvironment env)
+        public Startup(IHostingEnvironment env)
         {
+            //HACK to allow use of this file from a unit test project.
+            //var path = env.ContentRootPath;
             var path = Utility.ReturnRoot();
+
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(path)
@@ -30,12 +37,18 @@ namespace A4U3.Web
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+
+            // In Azure portal, the Appsettings section holds an entry for
+            // ConfigOptions:ConnectionString
+            // That's how the live connection string is picked up.
         }
 
         public IConfigurationRoot Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // MVC6 associate the ConfigOptions section from the  json config  with the ConfigOptions class
             services.Configure<ConfigOptions>(Configuration.GetSection("ConfigOptions"));
 
             var connection = Configuration["ConfigOptions:ConnectionString"];
@@ -43,56 +56,67 @@ namespace A4U3.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connection));
 
-            services.AddApplicationInsightsTelemetry();
+            services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson(o =>
-                {
-                    o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                });
+            // Add framework services.
+            services.AddMvc()
+                 .AddJsonOptions(o =>
+                 {
+                     o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                 });
 
             services.TryAddTransient<IBuildPaginationLinks, PaginationLinkBuilder>();
 
-            services.AddMemoryCache();
+            // TODO Needed for Session  
+            //services.AddCaching();
             services.AddSession();
 
+            // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            services.AddScoped<IRepository, RepositoryEF>();
+            // My Stuff
+            services.AddScoped<IRepository, Repository.RepositoryEF>();
             services.AddScoped<IStaticData, StaticDataProvider>();
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
             }
 
             app.UseStaticFiles();
 
-            app.UseRouting();
+            app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseIdentity();
+
+            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+
             app.UseSession();
 
-            app.UseEndpoints(endpoints =>
+
+            app.UseMvc(routes =>
             {
-                endpoints.MapControllerRoute(
+                routes.MapRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

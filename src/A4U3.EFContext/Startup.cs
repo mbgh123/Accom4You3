@@ -12,7 +12,7 @@ namespace A4U3.EFContext
     {
         public IConfigurationRoot Configuration { get; set; }
 
-        public Startup(IWebHostEnvironment env)
+        public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
