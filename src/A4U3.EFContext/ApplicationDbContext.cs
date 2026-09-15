@@ -39,7 +39,7 @@ namespace A4U3.EFContext
         {
             if (_options.Value.UseInMemoryStore)
             {
-                optionsBuilder.UseInMemoryDatabase();
+                optionsBuilder.UseInMemoryDatabase("InMemoryDb");
             }
             else
             {

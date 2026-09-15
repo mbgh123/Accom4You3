@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using A4U3.Web.Services;
@@ -17,30 +18,23 @@ using A4U3.Repository;
 using A4U3.EFContext;
 using A4U3.Domain.Models;
 using cloudscribe.Web.Pagination;
-using A4U3.TestTools;
+using System.IO;
 
 namespace A4U3.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup()
         {
             //HACK to allow use of this file from a unit test project.
-            //var path = env.ContentRootPath;
-            var path = Utility.ReturnRoot();
-
+            var path = Directory.GetCurrentDirectory();
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(path)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
-
-            // In Azure portal, the Appsettings section holds an entry for
-            // ConfigOptions:ConnectionString
-            // That's how the live connection string is picked up.
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -62,11 +56,11 @@ namespace A4U3.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add framework services.
-            services.AddMvc()
-                 .AddJsonOptions(o =>
+            // Add framework services. Use Newtonsoft.Json for compatibility with TestServer
+            services.AddControllersWithViews()
+                 .AddNewtonsoftJson(options =>
                  {
-                     o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                  });
 
             services.TryAddTransient<IBuildPaginationLinks, PaginationLinkBuilder>();
@@ -86,37 +80,26 @@ namespace A4U3.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            // Note: environment-specific behavior is handled by host in modern ASP.NET Core apps.
 
             app.UseStaticFiles();
 
-            app.UseApplicationInsightsExceptionTelemetry();
+            // Application Insights middleware is wired via services when the package is present.
 
-            app.UseIdentity();
+            app.UseRouting();
 
-            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseSession();
 
-
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

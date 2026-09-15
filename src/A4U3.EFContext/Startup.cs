@@ -1,10 +1,8 @@
 ﻿using A4U3.Domain.Models;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace A4U3.EFContext
 {
@@ -12,11 +10,11 @@ namespace A4U3.EFContext
     {
         public IConfigurationRoot Configuration { get; set; }
 
-        public Startup(IHostingEnvironment env)
+        public Startup()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json");
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true);
 
             Configuration = builder.Build();
         }
@@ -30,9 +28,9 @@ namespace A4U3.EFContext
 
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure()
         {
-            // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
+            // EF context library does not configure an application pipeline here.
         }
     }
 }

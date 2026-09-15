@@ -1,6 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.Configuration;
 using A4U3.TestTools;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +27,7 @@ namespace A4U3.IntegratiopnTests2
     {
         public IConfigurationRoot Configuration { get; }
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             var path = Utility.ReturnRoot();
 
@@ -47,15 +51,17 @@ namespace A4U3.IntegratiopnTests2
 
             //services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                // default identity options for tests
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Add framework services.
-            services.AddMvc()
-                 .AddJsonOptions(o =>
+            services.AddControllersWithViews()
+                 .AddNewtonsoftJson(options =>
                  {
-                     o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                  });
 
             services.TryAddTransient<IBuildPaginationLinks, PaginationLinkBuilder>();
@@ -74,12 +80,12 @@ namespace A4U3.IntegratiopnTests2
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                // BrowserLink is obsolete; skip in test host
             }
             else
             {
@@ -90,17 +96,17 @@ namespace A4U3.IntegratiopnTests2
 
             //app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseIdentity();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseSession();
 
-            app.UseMvc(routes =>
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

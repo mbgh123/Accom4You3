@@ -7,7 +7,7 @@ using A4U3.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.PlatformAbstractions;
+// removed Microsoft.Extensions.PlatformAbstractions; not needed in modern ASP.NET Core
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
@@ -39,7 +39,7 @@ namespace A4U3.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Picture picture, IFormFile file)
+        public async Task<IActionResult> Create(Picture picture, IFormFile file)
         {
             if (file == null || file.Length == 0)
             {
@@ -50,8 +50,11 @@ namespace A4U3.Web.Controllers
 
             // NB for file.FileName IE returns the path AND filename, whereas Firefox returns just the filname.
             // Need Path.GetFileName() to discard possible user path info.
-            var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-            picture.OriginalName = Path.GetFileName(fileName);
+            // Trim any stray quotes or null characters that may be present in the header value.
+            // Use the client-provided filename and sanitize it. ContentDispositionHeaderValue.FileName is a StringSegment
+            // in newer libraries; prefer the IFormFile.FileName string here.
+            var contentFileName = file.FileName ?? string.Empty;
+            picture.OriginalName = Path.GetFileName(contentFileName).Trim();
 
             string guid = Guid.NewGuid().ToString();
             picture.UniqueName = string.Format("{0}_{2}_{1}", picture.PropertyId, picture.OriginalName, guid);
@@ -73,7 +76,7 @@ namespace A4U3.Web.Controllers
             
             using (var fileStream = new FileStream(path, FileMode.Create))
             {
-                file.CopyTo(fileStream);
+                await file.CopyToAsync(fileStream);
             }
 
 

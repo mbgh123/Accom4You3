@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.Configuration;
 using FluentAssertions;
 using A4U3.TestTools;
@@ -53,9 +52,9 @@ namespace A4U3.IntegrationTests
             services.Configure<ConfigOptions>(Configuration.GetSection("ConfigOptions"));
 
 
-            // The Use of "In Memory" is determined by the dbcontext constructor & appsettings
-            services.AddEntityFramework()
-                .AddDbContext<ApplicationDbContext>();
+            // Register ApplicationDbContext with an in-memory provider for tests
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseInMemoryDatabase("TestDb"));
 
             // Dependency Injection
             services.AddScoped<IRepository, A4U3.Repository.RepositoryEF>();

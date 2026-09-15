@@ -78,13 +78,13 @@ namespace A4U3.Integrationtests3
             getResponse.IsSuccessStatusCode.Should().BeTrue();
 
             created.PropertyId.Should().BePositive("A PropertyId should have been set");
-            created.Description.Should().Equals(originProp.Description);
+            created.Description.Should().Be(originProp.Description);
 
             getAllResult.Should().NotBeEmpty();
             var newProperty = getAllResult.Single(x => x.PropertyId == created.PropertyId);
 
             newProperty.Should().NotBeNull("The newly created property should be in the getAll result set");
-            newProperty.Description.Should().Equals(originProp.Description);
+            newProperty.Description.Should().Be(originProp.Description);
         }
 
         [Fact]
